@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import * as esbuild from 'esbuild-wasm';
 import { unpkgPathPlugin } from '../plugins/unpkg-path-plugin';
 import { fetchPlugin } from '../plugins/fetch-plugin';
+import CodeEditor from './CodeEditor';
 
 const App = () => {
   const ref = useRef<any>();
@@ -19,7 +20,7 @@ const App = () => {
     startService();
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
   };
 
@@ -64,7 +65,11 @@ const App = () => {
 
   return (
     <div>
-      <textarea value={input} onChange={handleChange}></textarea>
+      <CodeEditor
+        initialValue='const a = 1;'
+        onChange={value => setInput(value)}
+      />
+      <textarea value={input} onChange={onChange}></textarea>
       <div>
         <button onClick={handleClick}>Submit</button>
       </div>
