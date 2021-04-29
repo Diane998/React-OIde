@@ -1,5 +1,5 @@
+import './CodeEditor.css';
 import { useState } from 'react';
-
 import MonacoEditor, {
   EditorDidMount,
   ChangeHandler
@@ -15,9 +15,9 @@ interface CodeEditorProps {
 const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
   const [code, setCode] = useState('');
 
-  const onEditorDidMount: EditorDidMount = (editor, monaco) => {
-    editor.focus();
-  };
+  // const onEditorDidMount: EditorDidMount = (editor, monaco) => {
+  //   editor.focus();
+  // };
 
   const handleChange: ChangeHandler = (newValue, e) => {
     setCode(newValue);
@@ -26,23 +26,30 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
 
   const handleFormat = () => {
     // format that value
-    const formatted = prettier.format(code, {
-      parser: 'babel',
-      plugins: [parser],
-      useTabs: false,
-      semi: true,
-      singleQuote: true
-    });
+    const formatted = prettier
+      .format(code, {
+        parser: 'babel',
+        plugins: [parser],
+        useTabs: false,
+        semi: true,
+        singleQuote: true
+      })
+      .replace(/\n$/, '');
     // set the current value back in the editor
     setCode(formatted);
   };
 
   return (
-    <div>
-      <button onClick={handleFormat}>Format</button>
+    <div className='editor-wrapper'>
+      <button
+        className='button button-format is-primary is-small'
+        onClick={handleFormat}
+      >
+        Format
+      </button>
       <MonacoEditor
         value={code}
-        editorDidMount={onEditorDidMount}
+        // editorDidMount={onEditorDidMount}
         onChange={handleChange}
         width='800'
         height='600'
