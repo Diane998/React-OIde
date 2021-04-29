@@ -15,41 +15,6 @@ export const fetchPlugin = (inputCode: string) => {
         contents: inputCode
       }));
 
-      build.onLoad({ filter: /.css$/ }, async (args: any) => {
-        // Check to see if we've already fetched this file
-        // and if it is in the cache
-        const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
-          args.path
-        );
-
-        // if it is, return it immediately
-        if (cachedResult) return cachedResult;
-        else {
-          const { data, request } = await axios.get(args.path);
-
-          const escaped = data
-            .replace(/\n/g, '')
-            .replace(/"/g, '\\"')
-            .replace(/'/g, "\\'");
-          const contents = `
-            const style = document.createElement('style');
-            style.innerText = '${escaped}';
-            document.head.appendDhild(style);
-          `;
-
-          const result: esbuild.OnLoadResult = {
-            loader: 'jsx',
-            contents,
-            resolveDir: new URL('./', request.responseURL).pathname
-          };
-
-          // store reponse in cache
-          await fileCache.setItem(args.path, result);
-
-          return result;
-        }
-      });
-
       build.onLoad({ filter: /.*/ }, async (args: any) => {
         // Check to see if we've already fetched this file
         // and if it is in the cache
@@ -59,20 +24,46 @@ export const fetchPlugin = (inputCode: string) => {
 
         // if it is, return it immediately
         if (cachedResult) return cachedResult;
-        else {
-          const { data, request } = await axios.get(args.path);
+      });
 
-          const result: esbuild.OnLoadResult = {
-            loader: 'jsx',
-            contents: data,
-            resolveDir: new URL('./', request.responseURL).pathname
-          };
+      build.onLoad({ filter: /.css$/ }, async (args: any) => {
+        const { data, request } = await axios.get(args.path);
 
-          // store reponse in cache
-          await fileCache.setItem(args.path, result);
+        const escaped = data
+          .replace(/\n/g, '')
+          .replace(/"/g, '\\"')
+          .replace(/'/g, "\\'");
+        const contents = `
+            const style = document.createElement('style');
+            style.innerText = '${escaped}';
+            document.head.appendDhild(style);
+          `;
 
-          return result;
-        }
+        const result: esbuild.OnLoadResult = {
+          loader: 'jsx',
+          contents,
+          resolveDir: new URL('./', request.responseURL).pathname
+        };
+
+        // store reponse in cache
+        await fileCache.setItem(args.path, result);
+
+        return result;
+      });
+
+      build.onLoad({ filter: /.*/ }, async (args: any) => {
+        const { data, request } = await axios.get(args.path);
+
+        const result: esbuild.OnLoadResult = {
+          loader: 'jsx',
+          contents: data,
+          resolveDir: new URL('./', request.responseURL).pathname
+        };
+
+        // store reponse in cache
+        await fileCache.setItem(args.path, result);
+
+        return result;
       });
     }
   };
