@@ -15,9 +15,9 @@ interface CodeEditorProps {
 const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
   const [code, setCode] = useState('');
 
-  // const onEditorDidMount: EditorDidMount = (editor, monaco) => {
-  //   editor.focus();
-  // };
+  const onEditorDidMount: EditorDidMount = (editor, monaco) => {
+    editor.focus();
+  };
 
   const handleChange: ChangeHandler = (newValue, e) => {
     setCode(newValue);
@@ -49,7 +49,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
       </button>
       <MonacoEditor
         value={code}
-        // editorDidMount={onEditorDidMount}
+        editorDidMount={onEditorDidMount}
         onChange={handleChange}
         width='800'
         height='600'
