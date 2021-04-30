@@ -31,7 +31,7 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
     return () => {
       window.removeEventListener('resize', listener);
     };
-  }, []);
+  }, [paneWidth]);
 
   resizableProps =
     direction === 'horizontal'
