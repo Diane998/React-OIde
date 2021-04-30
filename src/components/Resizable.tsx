@@ -10,6 +10,7 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
   let resizableProps: ResizableBoxProps;
   const [innerHeight, setInnerHeight] = useState(window.innerHeight);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [paneWidth, setPaneWidth] = useState(window.innerWidth * 0.75);
 
   useEffect(() => {
     let timer: any;
@@ -19,6 +20,9 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
       timer = setTimeout(() => {
         setInnerHeight(window.innerHeight);
         setInnerWidth(window.innerWidth);
+
+        if (window.innerWidth * 0.75 < paneWidth)
+          setPaneWidth(window.innerWidth * 0.75);
       }, 100);
     };
 
@@ -33,11 +37,14 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
     direction === 'horizontal'
       ? {
           className: 'resize-horizontal',
-          width: innerWidth * 0.75,
+          width: paneWidth,
           height: Infinity,
           resizeHandles: ['e'],
           maxConstraints: [innerWidth * 0.75, Infinity],
-          minConstraints: [innerWidth * 0.2, Infinity]
+          minConstraints: [innerWidth * 0.2, Infinity],
+          onResizeStop: (e, data) => {
+            setPaneWidth(data.size.width);
+          }
         }
       : {
           width: Infinity,
