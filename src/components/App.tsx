@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import bundler from '../budler';
+import bundle from '../budler';
 
 import CodeEditor from './CodeEditor';
 import Preview from './Preview';
@@ -13,7 +13,7 @@ const App = () => {
   };
 
   const handleClick = async () => {
-    const output = await bundler(input);
+    const output = await bundle(input);
     setCode(output);
   };
 
