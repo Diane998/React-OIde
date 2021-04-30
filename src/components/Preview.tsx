@@ -18,6 +18,11 @@ const html = `
         root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
         console.error(err);
       };
+      
+      window.addEventListener('error', (e) => {
+        e.preventDefault();
+        handleError(e.error);
+      })
 
       window.addEventListener('message', (e) => {
         try {
