@@ -28,11 +28,11 @@ const cellsReducer = produce(
         const { id, content } = action.payload;
 
         state.data[id].content = content;
-        return;
+        return state;
       case DELETE_CELL:
         delete state.data[action.payload];
         state.order = state.order.filter(id => id !== action.payload);
-        return;
+        return state;
       case MOVE_CELL:
         const { direction } = action.payload;
         const index = state.order.findIndex(id => id === action.payload.id);
@@ -42,7 +42,7 @@ const cellsReducer = produce(
         state.order[index] = state.order[targetIndex];
         state.order[targetIndex] = action.payload.id;
 
-        return;
+        return state;
       case INSERT_CELL_BEEFORE:
         const cell: Cell = {
           id: randomID(),
@@ -59,7 +59,7 @@ const cellsReducer = produce(
         foundIndex < 0
           ? state.order.push(cell.id)
           : state.order.splice(foundIndex, 0, cell.id);
-        return;
+        return state;
       default:
         return state;
     }
