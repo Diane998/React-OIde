@@ -22,7 +22,7 @@ export interface DeleteCellAction {
 export interface InsertCellBeforeAction {
   type: typeof INSERT_CELL_BEEFORE;
   payload: {
-    id: string;
+    id: string | null;
     type: CellTypes;
   };
 }
