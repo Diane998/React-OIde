@@ -1,15 +1,17 @@
-// import CodeCell from './CodeCell';
 import { Provider } from 'react-redux';
-import { store } from '../redux';
-import TextEditor from './TextEditor';
+import { PersistGate } from 'redux-persist/integration/react';
+
+import { store, persistor } from '../redux';
+import CellList from './CellList';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <div>
-        {/* <CodeCell /> */}
-        <TextEditor />
-      </div>
+      <PersistGate persistor={persistor}>
+        <div>
+          <CellList />
+        </div>
+      </PersistGate>
     </Provider>
   );
 };
