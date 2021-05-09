@@ -2,7 +2,13 @@ import { ActionType } from '../action-types';
 
 import { CellTypes } from '../cell';
 
-const { MOVE_CELL, DELETE_CELL, INSERT_CELL_BEEFORE, UPDATE_CELL } = ActionType;
+const {
+  MOVE_CELL,
+  DELETE_CELL,
+  INSERT_CELL_BEEFORE,
+  UPDATE_CELL,
+  BUNDLE_CREATED
+} = ActionType;
 
 export type Direction = 'up' | 'down';
 
@@ -35,8 +41,17 @@ export interface UpdateCellAction {
   };
 }
 
+export interface BundleCreatedAction {
+  type: typeof BUNDLE_CREATED;
+  payload: {
+    code: string;
+    err: string;
+  };
+}
+
 export type Action =
   | MoveCellAction
   | DeleteCellAction
   | InsertCellBeforeAction
-  | UpdateCellAction;
+  | UpdateCellAction
+  | BundleCreatedAction;
