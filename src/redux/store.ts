@@ -18,7 +18,6 @@ const persistConfig: PersistConfig<RootState> = {
   storage
 };
 
-// const persistedReducer = persistReducer(persistConfig, reducers);
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = createStore<any, any, any, any>(
