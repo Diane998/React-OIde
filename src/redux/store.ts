@@ -1,8 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistStore, persistReducer, PersistConfig } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import reducers from './reducers';
+import reducers, { RootState } from './reducers';
+import { ActionType } from './action-types';
 
 declare global {
   interface Window {
@@ -12,14 +13,15 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const persistConfig = {
+const persistConfig: PersistConfig<RootState> = {
   key: 'root',
   storage
 };
 
+// const persistedReducer = persistReducer(persistConfig, reducers);
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-const store = createStore(
+const store = createStore<any, any, any, any>(
   persistedReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
@@ -27,3 +29,27 @@ const store = createStore(
 const persistor = persistStore(store);
 
 export { store, persistor };
+
+store.dispatch({
+  type: ActionType.INSERT_CELL_BEEFORE,
+  payload: {
+    id: null,
+    type: 'text'
+  }
+});
+
+store.dispatch({
+  type: ActionType.INSERT_CELL_BEEFORE,
+  payload: {
+    id: null,
+    type: 'code'
+  }
+});
+
+store.dispatch({
+  type: ActionType.INSERT_CELL_BEEFORE,
+  payload: {
+    id: null,
+    type: 'text'
+  }
+});
