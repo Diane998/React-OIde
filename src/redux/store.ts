@@ -4,6 +4,7 @@ import { persistStore, persistReducer, PersistConfig } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import reducers, { RootState } from './reducers';
 import { ActionType } from './action-types';
+import { bundlerMiddleware } from './middlewares/bundler-middlewares';
 
 declare global {
   interface Window {
@@ -22,7 +23,7 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = createStore<any, any, any, any>(
   persistedReducer,
-  composeEnhancers(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(thunk, bundlerMiddleware))
 );
 
 const persistor = persistStore(store);
