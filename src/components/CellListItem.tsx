@@ -13,9 +13,19 @@ const CellListItem: React.FC<CellListItemProps> = ({ cell }) => {
   let child: JSX.Element;
   child =
     cell.type === 'code' ? (
-      <CodeCell cell={cell} />
+      <>
+        <div className='action-bar-wrapper'>
+          <ActionBar id={cell.id} />
+        </div>
+        <CodeCell cell={cell} />
+      </>
     ) : (
-      <TextEditor cell={cell} />
+      <>
+        <div className='action-bar-wrapper'>
+          <ActionBar id={cell.id} />
+        </div>
+        <TextEditor cell={cell} />
+      </>
     );
 
   return (
