@@ -3,6 +3,7 @@ import { Cell } from '../redux';
 import ActionBar from './ActionBar';
 import CodeCell from './CodeCell';
 import TextEditor from './TextEditor';
+import './CellListItem.css';
 
 interface CellListItemProps {
   cell: Cell;
@@ -18,9 +19,9 @@ const CellListItem: React.FC<CellListItemProps> = ({ cell }) => {
     );
 
   return (
-    <div>
-      <ActionBar id={cell.id} />
+    <div className='cell-list-item'>
       {child}
+      <ActionBar id={cell.id} />
     </div>
   );
 };
